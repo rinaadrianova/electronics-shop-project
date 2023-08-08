@@ -1,3 +1,6 @@
+import csv
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -19,6 +22,17 @@ class Item:
 
         self.all.append(self)
 
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, name):
+        if len(name) <= 10:
+            self.__name = name
+        else:
+            self.__name = name[:10]
+
     def calculate_total_price(self) -> float:
         """
         Рассчитывает общую стоимость конкретного товара в магазине.
@@ -33,3 +47,23 @@ class Item:
         """
         self.price = self.pay_rate * self.price
         return self.price
+
+    @classmethod
+    def instantiate_from_csv(cls):
+        '''Класс-метод, инициализирующий
+        экземпляры класса Item данными из файла src/items.csv
+        '''
+
+        with open("D:\skypro\electronics-shop-project\src\items.csv", "r") as file:
+            csv_file = csv.DictReader(file)
+            for row in csv_file:
+                cls(row["name"], int(row["price"]), int(row["quantity"]))
+
+    @staticmethod
+    def string_to_number(string):
+        '''
+        Статический метод, возвращающий число из числа-строки
+        '''
+        return int(float(string))
+
+

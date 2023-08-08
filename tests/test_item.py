@@ -2,6 +2,11 @@
 from src.item import Item
 
 
+def test_instantiate_from_csv():
+    Item.instantiate_from_csv()
+    assert len(Item.all) == 5
+
+
 def test_calculate_total_price():
     item1 = Item("Смартфон", 10000, 20)
     item2 = Item("Ноутбук", 20000, 5)
@@ -37,3 +42,23 @@ def test_all_instances():
 
     # Убедимся, что экземпляры были добавлены в список all
     assert all(item in Item.all for item in [item1, item2])
+
+
+def test_name():
+    item1 = Item("Смартфон", 10000, 20)
+    item2 = Item("НоутбукIntelCore3000", 20000, 5)
+
+    assert item1.name == 'Смартфон'
+    assert item2.name == 'НоутбукInt'
+
+
+def test_string_to_number():
+    assert Item.string_to_number('5') == 5
+    assert Item.string_to_number('5.0') == 5
+    assert Item.string_to_number('5.5') == 5
+
+
+def test_all():
+    Item.instantiate_from_csv()
+    item = Item.all[0]
+    assert item.name == 'Смартфон'
